@@ -1,6 +1,6 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Model = sequelize.sequelize.Model;
+  const Model = sequelize.Sequelize.Model;
 
   class Post extends Model{}
 
@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   
   Post.associate = function(models) {
     // associations can be defined here
-    Post.hasMany(models.User);
+    Post.belongsTo(models.User);
   };
   return Post;
 };

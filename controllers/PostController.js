@@ -1,12 +1,11 @@
-const { Post } = require('../models');
+const { Post, User } = require('../models');
 const axios = require('axios');
 
 class PostController{
     static findAll(req, res, next) {
-        Post.findAll()
-        // ({
-        //     include: [{ model: User }]
-        // })
+        Post.findAll({
+            include: [{ model: User }]
+        })
             .then(data => {    
                 res.status(200).json({
                     data,
@@ -21,7 +20,7 @@ class PostController{
             title : req.body.title,
             url : req.body.url,
             tags : req.body.tags,
-            UserId : req.params.id
+            UserId : req.body.UserId
         }
         
         Post.create(data)
@@ -46,11 +45,14 @@ class PostController{
         const data = {
             title : req.body.title,
             url : req.body.url,
-            tags : req.body.tags
+            tags : req.body.tags,
+            UserId : req.body.UserId
         }
 
         Post.update(data, { where : { id }, returning : true} )
             .then(result => {
+                console.log(2);
+                
                 if (result[0] > 0) {
                     res.status(200).json({
                         data: result[0][1],
