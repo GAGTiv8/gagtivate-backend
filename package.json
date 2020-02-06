@@ -1,0 +1,29 @@
+{
+  "name": "gagtivate-backend",
+  "version": "1.0.0",
+  "description": "Backend of GAGTiv8",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GAGTiv8/gagtivate-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GAGTiv8/gagtivate-backend/issues"
+  },
+  "homepage": "https://github.com/GAGTiv8/gagtivate-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "google-auth-library": "^5.9.2",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^7.18.1",
+    "sequelize": "^5.21.3"
+  }
+}
