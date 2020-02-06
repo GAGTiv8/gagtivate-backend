@@ -1,5 +1,4 @@
 const { Post, User } = require('../models');
-const axios = require('axios');
 
 class PostController{
     static findAll(req, res, next) {
