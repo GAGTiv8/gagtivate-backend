@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Model = sequelize.Sequelize.Model;
-  
+
   class User extends Model{}
 
   User.init({
@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty:{
           args:true,
-          msg:"Not Empty Require"
+          msg:"Email must be filled"
         },
         isEmail : {
           args:true,
-          msg:"Not Email Format"
+          msg:"Email format failed"
         }
       }
     },
@@ -24,17 +24,17 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         len:{
             args:[6],
-            msg:"Minimum 6 characters required"
+            msg:"Minimum 6 characters password required"
         }
       }
     }
   }, {
     sequelize
   })
-
-  User.associate = function(models)  {
+  
+  User.associate = function(models) {
     // associations can be defined here
-    User.hasMany(models.Post);
+    
   };
   return User;
 };

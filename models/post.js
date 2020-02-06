@@ -1,16 +1,16 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const Model = sequelize.Sequelize.Model;
+  const Model = sequelize.sequelize.Model;
 
   class Post extends Model{}
 
   Post.init({
-    title: {
+    title:  {
       type: DataTypes.STRING,
       validate:{
         notEmpty:{
             args:true,
-            msg:"Not Empty Require"
+            msg:"Title must be filled"
         },
         len:{
             args:[4],
@@ -23,31 +23,23 @@ module.exports = (sequelize, DataTypes) => {
       validate:{
         notEmpty:{
             args:true,
-            msg:"Not Empty Require"
+            msg:"URL must be filled"
         },
-        len:{
-            args:[4],
-            msg:"Minimum 4 characters required"
+        isUrl: {
+          args: true,
+          msg: "URL format wrong"
         }
       }
     },
-    tags: {
-      type: DataTypes.STRING,
-      validate:{
-        notEmpty:{
-            args:true,
-            msg:"Not Empty Require"
-        }
-      }
-    }
+    tags: DataTypes.STRING,
+    UserId: DataTypes.INTEGER
   }, {
     sequelize
   })
-
+  
   Post.associate = function(models) {
     // associations can be defined here
-    Post.belongsTo(models.User);
+    Post.hasMany(models.User);
   };
-  
   return Post;
 };
