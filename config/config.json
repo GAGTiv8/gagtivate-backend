@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "hendry",
-    "password": "123",
+    "username": "postgres",
+    "password": "postgres",
     "database": "gagtive",
     "host": "127.0.0.1",
     "dialect": "postgres"
