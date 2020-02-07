@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "postgres",
-    "password": "12345",
-    "database": "Gagtivate_dev",
+    "username": "hendry",
+    "password": "123",
+    "database": "gagtive",
     "host": "127.0.0.1",
     "dialect": "postgres"
   }

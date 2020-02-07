@@ -7,8 +7,9 @@ module.exports = (sequelize, DataTypes) => {
   Post.init({
     title:  {
       type: DataTypes.STRING,
+      allowNull: false,
       validate:{
-        notEmpty:{
+        notNull:{
             args:true,
             msg:"Title must be filled"
         },
@@ -20,8 +21,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     url: {
       type: DataTypes.STRING,
+      allowNull: false,
+      // {
+      //   args:false,
+      //   msg:"URL must be filled"
+      // },
       validate:{
-        notEmpty:{
+        notNull:{
             args:true,
             msg:"URL must be filled"
         },
@@ -31,7 +37,16 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
-    tags: DataTypes.STRING,
+    tags: {
+      type: DataTypes.STRING,
+      // allowNull: false,
+      // validate:{
+      //   notNull:{
+      //       args:true,
+      //       msg:"Tags must be filled"
+      //   }
+      // }
+    }, 
     UserId: DataTypes.INTEGER
   }, {
     sequelize
