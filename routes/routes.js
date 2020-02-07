@@ -21,6 +21,7 @@ router.post('/signin', SigninController.signIn)
 router.get('/', PostController.findAll);
 router.post('/', upload.single('image'), PostController.create);
 router.get('/trends', PostController.trends);
+router.get('/charts', PostController.charts)
 router.get('/:id', PostController.findById);
 router.put('/:id', PostController.update);
 router.delete('/:id', PostController.delete);
