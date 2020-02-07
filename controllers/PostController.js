@@ -1,19 +1,39 @@
-const { Post, User } = require('../models');
-const axios = require('axios');
-const { base64_encode } = require('../helpers/base64');
+const { Post, User } = require('../models')
+const axios = require('axios')
+const { base64_encode } = require('../helpers/base64')
+const db = require('../models')
+const { QueryTypes } = require('sequelize')
 
-class PostController{
+class PostController {
     static findAll(req, res, next) {
         Post.findAll({
-            include: [{ model: User }]
+            include: [{ model: User }],
+            order: [['id', 'DESC']]
         })
-            .then(data => {    
+            .then(data => {
                 res.status(200).json({
                     data,
                     msg: 'Read Data Post success'
                 })
             })
-            .catch(next);
+            .catch(next)
+    }
+
+    static async charts(req, res, next) {
+        let query = `select date("createdAt"), count(*) from "Posts" group by date("createdAt") order by date("createdAt") asc`
+
+        try {
+            const chartData = await db.sequelize.query(query, {
+                type: QueryTypes.SELECT
+            })
+
+            res.status(200).json({
+                data: chartData,
+                msg: 'Read Data Charts success'
+            })
+        } catch (e) {
+            next(e)
+        }
     }
 
     static trends(req, res, next) {
@@ -27,14 +47,14 @@ class PostController{
             .then(result => {
                 // res.send(result.data[0].trends)
                 res.status(200).json({
-                    data : result.data[0].trends,
+                    data: result.data[0].trends,
                     msg: 'Read trends success'
                 })
             })
-            .catch(next);
+            .catch(next)
     }
 
-    static create(req, res, next){
+    static create(req, res, next) {
         const options = {
             headers: { Authorization: 'Client-ID 5da6ca0a43b0e11' }
         }
@@ -44,28 +64,28 @@ class PostController{
             .then(result => {
                 // console.log(result.data.data.link)
                 // res.send(result.data.data.link)
-    
+
                 const data = {
-                    title : req.body.title,
-                    url : result.data.data.link,
-                    tags : req.body.tags,
-                    UserId : req.body.UserId
+                    title: req.body.title,
+                    url: result.data.data.link,
+                    tags: req.body.tags,
+                    UserId: req.body.UserId
                 }
-    
+                console.log(data)
                 Post.create(data)
-                    .then( result => {
+                    .then(result => {
                         res.status(201).json({
-                            data : result,
+                            data: result,
                             msg: 'Input Post success'
                         })
                     })
                     .catch(err => {
                         next({
-                            name : err.name,
+                            name: err.name,
                             msg: err,
-                            process : 'Create Post'
+                            process: 'Create Post'
                         })
-                    });
+                    })
             })
             .catch(err => {
                 next(err)
@@ -74,22 +94,22 @@ class PostController{
     }
 
     static update(req, res, next) {
-        const { id } = req.params;
+        const { id } = req.params
 
         const data = {
-            title : req.body.title,
-            url : req.body.url,
-            tags : req.body.tags,
-            UserId : req.body.UserId
+            title: req.body.title,
+            url: req.body.url,
+            tags: req.body.tags,
+            UserId: req.body.UserId
         }
 
-        Post.update(data, { where : { id }, returning : true} )
+        Post.update(data, { where: { id }, returning: true })
             .then(result => {
                 if (result[0] > 0) {
                     res.status(200).json({
                         data: result[0][1],
                         msg: 'Update Data Post success'
-                    })    
+                    })
                 } else {
                     next({
                         name: 404,
@@ -98,19 +118,19 @@ class PostController{
                     })
                 }
             })
-            .catch(next);
+            .catch(next)
     }
 
     static delete(req, res, next) {
-        const { id } = req.params;
+        const { id } = req.params
 
-        Post.destroy({ where : { id }})
-            .then( data => {
+        Post.destroy({ where: { id } })
+            .then(data => {
                 if (data) {
                     res.status(200).json({
                         data,
                         msg: 'Delete Data Post success'
-                    })    
+                    })
                 } else {
                     next({
                         name: 404,
@@ -119,19 +139,19 @@ class PostController{
                     })
                 }
             })
-            .catch(next);
+            .catch(next)
     }
 
     static findById(req, res, next) {
-        const { id } = req.params;
+        const { id } = req.params
 
         Post.findByPk(id)
-        .then( data => {
+            .then(data => {
                 if (data) {
                     res.status(200).json({
                         data,
                         msg: 'Read Data PK Post success'
-                    })    
+                    })
                 } else {
                     next({
                         name: 404,
@@ -140,8 +160,8 @@ class PostController{
                     })
                 }
             })
-            .catch(next);
+            .catch(next)
     }
 }
 
-module.exports = PostController;
+module.exports = PostController
